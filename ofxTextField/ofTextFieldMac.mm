@@ -1,5 +1,6 @@
 #include "ofTextFieldMac.h"
 
+
 #pragma mark NSWindow stuff
 
 @interface ofNsWindow : NSWindow
@@ -24,6 +25,7 @@
 }
 @end
 
+@class AXCVHandler;
 
 struct obj_ofT_{
 public:
@@ -39,7 +41,7 @@ public:
     }
     obj_ofT_( ofNsWindow *wal_,
              NSView * uiView_,
-             NSTextField *	myTextField_){
+             AXCVHandler *	myTextField_){
         
         wal = wal_;
         uiView = uiView_;
@@ -64,7 +66,7 @@ public:
     ofNsWindow *wal;
     NSView * uiView;
     NSTextView *	myTextView;
-    NSTextField*	myTextField;
+    AXCVHandler*	myTextField;
     NSSecureTextField* myPasswordField;
     int id;
     
@@ -72,6 +74,28 @@ public:
 int quantity_ofBoxes;
 extern "C" AXError _AXUIElementGetWindow(AXUIElementRef, CGWindowID* out);
 
+
+#pragma mark AXCHandler (copy/paste for textfields) 
+// http://web.archive.org/web/20100126000339/http://www.cocoarocket.com/articles/copypaste.html
+@interface AXCVHandler : NSTextField { }
+@end
+@implementation AXCVHandler
+- (BOOL)performKeyEquivalent:(NSEvent *)event {
+    if (([event modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSCommandKeyMask) {
+        // The command key is the ONLY modifier key being pressed.
+        if ([[event charactersIgnoringModifiers] isEqualToString:@"x"]) {
+            return [NSApp sendAction:@selector(cut:) to:[[self window] firstResponder] from:self];
+        } else if ([[event charactersIgnoringModifiers] isEqualToString:@"c"]) {
+            return [NSApp sendAction:@selector(copy:) to:[[self window] firstResponder] from:self];
+        } else if ([[event charactersIgnoringModifiers] isEqualToString:@"v"]) {
+            return [NSApp sendAction:@selector(paste:) to:[[self window] firstResponder] from:self];
+        } else if ([[event charactersIgnoringModifiers] isEqualToString:@"a"]) {
+            return [NSApp sendAction:@selector(selectAll:) to:[[self window] firstResponder] from:self];
+        }
+    }
+    return [super performKeyEquivalent:event];
+}
+@end
 
 #pragma mark ofTextFieldMac Implementation
 
@@ -86,7 +110,7 @@ void ofTextFieldMac::create(int x, int y,int w,int h){
     ofNsWindow *wal;
     NSView* uiView;
     NSTextView *	myTextView;
-    NSTextField *	myTextField;
+    AXCVHandler *	myTextField;
     NSSecureTextField* myPasswordField;
     
     quantity_ofBoxes++;
@@ -124,7 +148,7 @@ void ofTextFieldMac::create(int x, int y,int w,int h){
             [wal setContentView:scrollview];
             [wal makeFirstResponder:myTextView];
         }else{
-            myTextField = [[[NSTextField alloc] initWithFrame:rect]autorelease];
+            myTextField = [[[AXCVHandler alloc] initWithFrame:rect]autorelease];
             [myTextField setStringValue:[NSString stringWithCString:text.c_str()
                                                            encoding:NSUTF8StringEncoding]];
             [myTextField setAlignment:Allingment_];
