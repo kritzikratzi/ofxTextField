@@ -1,3 +1,20 @@
+bin
+!bin/data
+
+# Visual Studio Ignores
+*.suo
+*.user
+*.sln.docstates
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+
+
+
+
 #########################
 # .gitignore file for Xcode4 and Xcode5 Source projects
 #
