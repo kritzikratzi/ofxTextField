@@ -6,30 +6,25 @@
 //  based on https://github.com/igiso/ofxTextField
 //
 
-#if TARGET_OS_MAC & !TARGET_OS_IPHONE
-
 #pragma once
-
+#if TARGET_OS_IPHONE
 #include "ofTextField.h"
 
-class obj_ofT_;
-extern int quantity_ofBoxes;
 
 
-class ofTextFieldMac : public ofTextFieldBase{
+class ofTextFieldiOS : public ofTextFieldBase{
 private:
-	CGRect appWindow;
-    obj_ofT_ * pointer;
-    void *pointerToWindow;	
-
+    void *textView;
+	static int quantity_ofBoxes;
+	
 protected:
 	virtual void create(int x, int y,int w,int h);
 	virtual void drawImpl(int x, int y, int w,int h);
-
+	
 	
 public:
-	ofTextFieldMac();
-	virtual ~ofTextFieldMac();
+	ofTextFieldiOS();
+	virtual ~ofTextFieldiOS();
 	
 	virtual bool activeApp();
     virtual bool isActive();
@@ -45,7 +40,7 @@ public:
     virtual void hideIfNotDrawing();
 };
 
-typedef ofTextFieldMac ofTextField;
+typedef ofTextFieldiOS ofTextField;
 
 
 #endif

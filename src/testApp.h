@@ -3,7 +3,16 @@
 #include "ofMain.h"
 #include "ofTextField.h"
 
-class testApp : public ofBaseApp{
+#if TARGET_OS_IPHONE
+	#include "ofxiOS.h"
+	#include "ofxiOSExtras.h"
+	#define OF_APP ofxiOSApp
+#else
+	#define OF_APP ofBaseApp
+#endif
+
+
+class testApp : public OF_APP{
 
 	public:
 		void setup();
@@ -20,8 +29,7 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 	
-//	ofTextFieldMac z;
-    ofTextFieldMac text, text2, text3;
+    ofTextField text, text2, text3;
 
     void exit();
 };

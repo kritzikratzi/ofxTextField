@@ -2,12 +2,6 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-    
-   
-    
-   
-
-    
 }
 
 //--------------------------------------------------------------
@@ -21,8 +15,6 @@ void testApp::draw(){
     text.draw(100,100, 100, 40);
     text2.draw(100,145, 100, 40);
     text3.draw(100,190, 100, 40);
-
-    
     ofDrawBitmapString("Result: "+text.getText()+text2.getText()+text3.getText(), 50,250);
     
 

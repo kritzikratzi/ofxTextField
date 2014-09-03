@@ -23,7 +23,7 @@ ofTextFieldBase::ofTextFieldBase(){
 }
 
 
-ofTextFieldBase::  ~ofTextFieldBase(){
+ofTextFieldBase::~ofTextFieldBase(){
     isCreated=false;
 }
 

@@ -1,4 +1,5 @@
 #include "ofTextFieldMac.h"
+#if TARGET_OS_MAC & !TARGET_OS_IPHONE
 
 
 #pragma mark NSWindow stuff
@@ -357,3 +358,5 @@ void ofTextFieldMac::hideIfNotDrawing(){
     //code needed
 }
 
+
+#endif

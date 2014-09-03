@@ -54,8 +54,8 @@ public:
 
 #if TARGET_OS_WIN32
 #include "ofTextFieldWin.h"
-#elif TARGET_OS_MAC
-#include "ofTextFieldMac.h"
 #elif TARGET_OS_IPHONE
 #include "ofTextFieldiOS.h"
+#elif TARGET_OS_MAC
+#include "ofTextFieldMac.h"
 #endif
