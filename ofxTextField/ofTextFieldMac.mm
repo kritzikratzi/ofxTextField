@@ -81,7 +81,7 @@ extern "C" AXError _AXUIElementGetWindow(AXUIElementRef, CGWindowID* out);
 @end
 @implementation AXCVHandler
 - (BOOL)performKeyEquivalent:(NSEvent *)event {
-    if (([event modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSCommandKeyMask) {
+    if ([event modifierFlags] & NSCommandKeyMask) {
         // The command key is the ONLY modifier key being pressed.
         if ([[event charactersIgnoringModifiers] isEqualToString:@"x"]) {
             return [NSApp sendAction:@selector(cut:) to:[[self window] firstResponder] from:self];
@@ -89,9 +89,13 @@ extern "C" AXError _AXUIElementGetWindow(AXUIElementRef, CGWindowID* out);
             return [NSApp sendAction:@selector(copy:) to:[[self window] firstResponder] from:self];
         } else if ([[event charactersIgnoringModifiers] isEqualToString:@"v"]) {
             return [NSApp sendAction:@selector(paste:) to:[[self window] firstResponder] from:self];
-        } else if ([[event charactersIgnoringModifiers] isEqualToString:@"a"]) {
+        } else if ( [[event charactersIgnoringModifiers] isEqualToString:@"a"]) {
             return [NSApp sendAction:@selector(selectAll:) to:[[self window] firstResponder] from:self];
         }
+		else if( ([event modifierFlags] & NSControlKeyMask) && [[event charactersIgnoringModifiers] isEqualToString:@" "]){
+			[[NSApplication sharedApplication] orderFrontCharacterPalette:[[self window] firstResponder]];
+			return YES;
+		}
     }
     return [super performKeyEquivalent:event];
 }
